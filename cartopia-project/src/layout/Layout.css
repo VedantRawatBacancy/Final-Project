@@ -1,0 +1,33 @@
+/* Layout.css */
+
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  min-height: 95vh;
+}
+
+.content {
+  /* display: flex; */
+  flex: 1;
+  /* justify-content: center;
+  place-items: center; */
+  padding: 20px;
+}
+
+/* Sticky Header */
+Header {
+  position: sticky;
+  top: 0;
+  background-color: #fff; /* Customize the header background color */
+  z-index: 100; /* Ensure the header appears above other content */
+}
+
+/* Sticky Footer */
+Footer {
+  /* padding-top: 10px; */
+  position: sticky;
+  bottom: 0;
+  background-color: #fff; /* Customize the footer background color */
+  z-index: 100; /* Ensure the footer appears above other content */
+}
