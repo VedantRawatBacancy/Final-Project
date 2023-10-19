@@ -30,7 +30,6 @@ export const Products = () => {
     search,
   };
   useEffect(() => {
-    // check if default value is present or not
     for (const [key, value] of Object.entries(defaultQueryString)) {
       if (!searchParams.has(key)) {
         searchParams.set(key, value);
@@ -49,7 +48,6 @@ export const Products = () => {
     setRowsPerPage(+rowsPerPage);
     setSearch(search);
 
-    // call get products function
     setLoading(true);
     getProducts({ page, rowsPerPage, search }).then((res) => {
       if (res.status === 200) {
@@ -74,7 +72,6 @@ export const Products = () => {
 
   return (
     <div>
-      {/* <Typography variant="h4" color='secondary' sx={{ textAlign: 'center', paddingTop: '20px' }}>Please Login First</Typography> */}
       <Typography
         variant="h4"
         color="text-primary"
@@ -93,15 +90,15 @@ export const Products = () => {
             </InputAdornment>
           ),
           sx: {
-            color: "#323031", // Text color
-            "& fieldset": { borderColor: "#323031" }, // Border color
-            "&:hover fieldset": { borderColor: "#323031" }, // Hover border color
+            color: "#323031",
+            "& fieldset": { borderColor: "#323031" },
+            "&:hover fieldset": { borderColor: "#323031" },
             width: "95vw",
           },
         }}
         InputLabelProps={{
           sx: {
-            color: "white", // Label color
+            color: "white",
           },
         }}
         value={search}

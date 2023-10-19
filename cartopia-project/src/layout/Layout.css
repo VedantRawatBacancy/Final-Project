@@ -8,10 +8,7 @@
 }
 
 .content {
-  /* display: flex; */
   flex: 1;
-  /* justify-content: center;
-  place-items: center; */
   padding: 20px;
 }
 
@@ -19,8 +16,8 @@
 Header {
   position: sticky;
   top: 0;
-  background-color: #fff; /* Customize the header background color */
-  z-index: 100; /* Ensure the header appears above other content */
+  background-color: #fff;
+  z-index: 100;
 }
 
 /* Sticky Footer */
@@ -28,6 +25,6 @@ Footer {
   /* padding-top: 10px; */
   position: sticky;
   bottom: 0;
-  background-color: #fff; /* Customize the footer background color */
-  z-index: 100; /* Ensure the footer appears above other content */
+  background-color: #fff;
+  z-index: 100;
 }

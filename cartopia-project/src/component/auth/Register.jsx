@@ -30,7 +30,6 @@ export const Register = () => {
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
-    // console.log(data);
     userRegister(data)
       .then((res) => {
         console.log(res);
@@ -38,7 +37,6 @@ export const Register = () => {
         if (res.status === 201) {
           alert("registration successfully, please verify your email");
           navigate("/signIn");
-          // handleSnackbarOpen("Please verify from email")
         }
       })
       .catch((err) => {

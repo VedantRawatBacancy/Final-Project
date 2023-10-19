@@ -4,26 +4,19 @@ import {
   Typography,
   Paper,
   Button,
-  Card,
-  CardMedia,
   CardActions,
 } from "@mui/material";
 
-// import { cartActions } from '../../store/cartSlicewsd'
 import { removeItemFromCart, updateItemOfCart } from "../../store/cartSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 export const CartItem = (props) => {
-  // const {id,itemName, quantity, price, description, image} = props
   const { id, name, quantity, price, image } = props;
   console.log(props, "PROPS");
 
   const dispatch = useDispatch();
-  // const totalQuantity = useSelector()
 
   const handleRemove = () => {
-    // console.log(id);
     const ProductId = id;
-    // console.log(ProductId);
 
     dispatch(removeItemFromCart(ProductId))
       .then(() => {
@@ -39,7 +32,6 @@ export const CartItem = (props) => {
       ProductId: id,
       quantity: quantity,
     };
-    // console.log(data)
     dispatch(updateItemOfCart(data))
       .then((response) => {
         console.log("item updated to cart", response);

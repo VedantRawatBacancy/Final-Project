@@ -1,6 +1,5 @@
 import { Grid, Paper, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { OrderItem } from "./OrderItem";
 import { getOrder } from "../../api/apiHandler";
 import TablePagination from "@mui/material/TablePagination";
@@ -11,10 +10,9 @@ export const Order = () => {
   const [slicedOrders, setSlicedOrders] = useState([]);
 
   const [orders, setOrders] = useState([]);
-  // const { token } = UseAuth();
-
   useEffect(() => {
     getOrder().then((res) => {
+      console.log(res.data.OrderDetails, "ORDDDDD");
       setOrders(res.data.OrderDetails);
     });
   }, []);
@@ -53,9 +51,9 @@ export const Order = () => {
                 >
                   <OrderItem
                     id={item.id}
-                    orderDate={item.order_date}
+                    orderDate={item.orderDate}
                     status={item.status}
-                    totalPrice={item.total_price}
+                    totalPrice={item.totalPrice}
                     products={item.products}
                   />
                 </Paper>

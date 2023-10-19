@@ -6,6 +6,7 @@ const OrderItem = require('../../models/orderItem')
 const User = require('../../models/user')
 const CartItem = require('../../models/cartItem')
 const Adminlog = require('../../models/adminAuditLog.js')
+const date = require('date-and-time') 
 // const OrderItem = require('../../models/orderItem')
 
 exports.placeOrder = async (req, res) => {
@@ -255,10 +256,17 @@ exports.getOrders = async (req, res) => {
         })
       }
 
+      const orderDateUF = order.createdAt;
+
+      const formattedDate = date.format(orderDateUF, 'DD/MM/YYYY')
+
       formattedOrders.push({
         order_id: order.id,
+        status: order.status,
+        totalPrice: order.total_price,
         shipping_address: order.shippingAddress,
         payment_method: order.paymentMethod,
+        orderDate: formattedDate,
         products
       })
     }

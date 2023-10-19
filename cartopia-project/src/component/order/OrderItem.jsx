@@ -1,10 +1,4 @@
-/* eslint-disable react/prop-types */
 import {
-  Card,
-  CardContent,
-  CardMedia,
-  Container,
-  Grid,
   Paper,
   Table,
   TableBody,
@@ -18,8 +12,7 @@ import React from "react";
 import { OrderProducts } from "./OrderProducts";
 
 export const OrderItem = (props) => {
-  const { orderDate, paymentMethod, status, totalPrice, products } = props;
-  console.log(props, "PROD");
+  const { orderDate, status, totalPrice, products } = props;
   return (
     <Paper elevation={3} style={{ padding: "20px", margin: "10px" }}>
       <Typography variant="h5" gutterBottom>

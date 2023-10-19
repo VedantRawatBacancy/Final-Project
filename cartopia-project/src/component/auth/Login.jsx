@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import "./Custom.css";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -149,15 +148,7 @@ export const Login = () => {
           autoHideDuration={3000}
           onClose={handleSnackbarClose}
         >
-          <Alert severity={snackbarSeverity}>
-            {/* {snackbarSeverity === 'success' ? (
-                <CheckCircleIcon fontSize="inherit" />
-
-              ) : (
-                <ErrorIcon fontSize="inherit" />
-              )}  */}
-            {snackbarMessage}
-          </Alert>
+          <Alert severity={snackbarSeverity}>{snackbarMessage}</Alert>
         </Snackbar>
       </div>
     </div>

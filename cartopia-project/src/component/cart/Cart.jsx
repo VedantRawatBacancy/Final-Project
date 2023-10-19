@@ -35,7 +35,6 @@ export const Cart = () => {
         console.log("Error in adding order or removing items", err);
       });
   };
-  // console.log(cartItems)
   const handleRemoveAll = () => {
     dispatch(removeAllItemsFromCart())
       .then((response) => {
@@ -61,7 +60,6 @@ export const Cart = () => {
         Shopping Cart
       </Typography>
 
-      {/* PROVIDE IMAGE AND IF URL FROM THE BACKEND */}
       {cartItems.length > 0 ? (
         cartItems.map((item) => (
           <>
@@ -86,9 +84,6 @@ export const Cart = () => {
         </Typography>
       )}
 
-      {/* </TableBody>
-    </Table>
-  </TableContainer> */}
       <Grid item xs={12} sm={6} sx={{ textAlign: "right" }}>
         <Typography
           variant="h6"

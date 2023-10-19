@@ -18,12 +18,13 @@ export const Checkout = () => {
               Thank you for your order.
             </Typography>
             <Typography variant="subtitle1">
-              Your order number is #2001539. We have emailed your order
-              confirmation, and will send you an update when your order has
-              shipped.
+              Your order was successful. We will email your order confirmation,
+              and will send you an update when your order has shipped.
             </Typography>
             <div>
               <Button
+                color="fail"
+                variant="outline"
                 onClick={() => {
                   navigate("/");
                 }}
@@ -31,6 +32,8 @@ export const Checkout = () => {
                 Go Home
               </Button>
               <Button
+                color="success"
+                variant="contained"
                 onClick={() => {
                   navigate("/product");
                 }}
