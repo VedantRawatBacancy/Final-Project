@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-// import axios from "axios";
+import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
+
 import {
   addCart,
   getCart,
@@ -14,6 +14,8 @@ const initialCartState = {
   totalPrice: 0,
 };
 
+let setPrice = 0;
+
 const CartSlice = createSlice({
   name: "cart",
   initialState: initialCartState,
@@ -26,10 +28,7 @@ const CartSlice = createSlice({
         state.totalQuantity = 0;
       })
       .addCase(fetchCart.fulfilled, (state, action) => {
-        // console.log(action.payload)
         for (const item of action.payload.cart_items) {
-          // console.log(item)
-          // console.log(state.items.ProductId)
           const val = {
             ProductId: item.product_id,
             ProductName: item.product_name,
@@ -39,6 +38,7 @@ const CartSlice = createSlice({
             image: item.image,
           };
           state.items.push(val);
+          console.log(item);
         }
         state.totalPrice = action.payload.total_price;
         state.totalQuantity = action.payload.total_quantity;
@@ -50,21 +50,22 @@ const CartSlice = createSlice({
         const existingItem = state.items.find(
           (item) => item.ProductId === newItem.ProductId
         );
-        state.totalPrice = state.totalPrice + newItem.total_price;
+
+        setPrice += newItem.total_price;
+        state.totalPrice = setPrice;
+        console.log(state.totalPrice);
         state.totalQuantity++;
 
         if (!existingItem) {
           state.items.push(newItem);
         } else {
           existingItem.quantity++;
-          existingItem.total_price =
+          existingItem.totalPrice =
             existingItem.total_price + newItem.total_price;
         }
       })
       .addCase(removeItemFromCart.fulfilled, (state, action) => {
-        // console.log(action.payload)
         const ProductId = action.payload.ProductId;
-        // console.log(ProductId, "PRODUCTTTT")
         const existingItem = state.items.find(
           (item) => item.ProductId === ProductId
         );
@@ -77,19 +78,16 @@ const CartSlice = createSlice({
 
       .addCase(updateItemOfCart.fulfilled, (state, action) => {
         const val = action.payload;
-        // console.log(val)
         for (const item of state.items) {
-          if (item.ProductId === val.ProductId) {
-            if (item.quantity > val.quantity) {
+          if (current(item).ProductId === val.ProductId) {
+            if (current(item).quantity > val.quantity) {
               item.quantity--;
-              item.totalPrice -= item.ProductPrice;
-              state.totalPrice -= item.ProductPrice;
-              state.totalQuantity--;
+              item.totalPrice = item.total_price * item.quantity;
+              console.log(item.totalPrice);
             } else {
               item.quantity++;
-              item.totalPrice += item.ProductPrice;
-              state.totalPrice += item.ProductPrice;
-              state.totalQuantity++;
+              item.totalPrice = item.total_price * item.quantity;
+              console.log(item.totalPrice);
             }
           }
         }
@@ -107,14 +105,7 @@ export default CartSlice.reducer;
 export const fetchCart = createAsyncThunk("cart/fetchCart", async () => {
   try {
     const res = await getCart();
-
-    // console.log(res, "FETCHED CART")
     const values = res.data;
-    // const values = {
-    //     cartitems: res.data.cart_items,
-    //     totalprice: res.data.total_price,
-    //     totalquantity: res.data.total_quantity
-    // }
     return values;
   } catch (err) {
     console.error(err);
@@ -128,10 +119,8 @@ export const addItemToCart = createAsyncThunk(
     try {
       // console.log(item)
       const res = await addCart(item);
-      // console.log(res, "ress")
-      // console.log(res.data, "RES DATA")
+      console.log(res);
       const val = res.data.items;
-      console.log(val, "ADDTOCART");
       return val;
     } catch (err) {
       throw new Error("Failed to add item to cart");
@@ -143,19 +132,15 @@ export const removeItemFromCart = createAsyncThunk(
   async (ProductId) => {
     try {
       const res = await removeFromCart(ProductId);
-      // console.log(res)
-      // Check the response for success or other relevant data
       if (res.status === 200) {
-        // console.log("vewfdcs")
         const val = res.data.item;
-        // console.log(val, "VAL")
         return val;
       } else {
         throw new Error("Failed to remove item from cart");
       }
     } catch (err) {
       console.error(err);
-      throw err; // Re-throw the error so it can be caught by the `.catch` block when dispatched
+      throw err;
     }
   }
 );
@@ -165,8 +150,6 @@ export const updateItemOfCart = createAsyncThunk(
   async (item) => {
     try {
       await updateCart(item);
-      console.log(item);
-
       return item;
     } catch (err) {
       console.log(err);
@@ -185,15 +168,3 @@ export const removeAllItemsFromCart = createAsyncThunk(
     }
   }
 );
-
-// export const fetchProducts = createAsyncThunk("products/fetchProducts", async() => {
-//   try {
-//     const res = await getProduct();
-//     const data = res.data.products
-//     console.log(data);
-//     return data;
-//   } catch (err) {
-//     console.error(err);
-//     throw err;
-//   }
-// })

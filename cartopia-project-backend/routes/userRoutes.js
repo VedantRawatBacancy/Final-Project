@@ -11,10 +11,12 @@ const {
   updateUserController,
   getUserController,
   deleteUserController,
-  registerController
+  registerController,
+  getCurrentUserController
 } = require('../controllers/user/index.js')
 
 router.get('/', asyncRouteHandler(viewAllUsers))
+
 
 router.post('/add-user', upload.single('profilePicture'), asyncRouteHandler(registerController))
 
@@ -23,6 +25,8 @@ router.patch('/edit-user/:id', upload.single('profilePicture'), asyncRouteHandle
 router.delete('/delete-user/:id', asyncRouteHandler(deleteUser))
 
 // User Profile
+  
+router.get('/get-current-user', requireSignIn, asyncRouteHandler(getCurrentUserController))
 router.get('/get-user', requireSignIn, asyncRouteHandler(getUserController))
 router.put('/update-user/:userId', requireSignIn, asyncRouteHandler(updateUserController))
 router.delete('/delete-user/:userId', requireSignIn, asyncRouteHandler(deleteUserController))

@@ -6,7 +6,8 @@ const {
   updateCart,
   getCart,
   removeAllCart,
-  checkout
+  checkout,
+  getCartItemCount
 } = require('../controllers/cart/index')
 const asyncRouteHandler = require('../util/asyncRouteHandler')
 const { authenticateProduct } = require('../middleware/ProductAuth')
@@ -25,5 +26,6 @@ router.delete('/remove', authenticateProduct, asyncRouteHandler(removeCart))
 router.delete('/removeAll', asyncRouteHandler(removeAllCart))
 router.patch('/update', authenticateProduct, asyncRouteHandler(updateCart))
 router.post('/checkout', asyncRouteHandler(checkout))
+router.get('/getCount', asyncRouteHandler(getCartItemCount))
 
 module.exports = router

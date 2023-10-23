@@ -1,4 +1,3 @@
-import "./App.css";
 import { HomePage } from "./component/Pages/HomePage";
 import { Route, Routes } from "react-router-dom";
 import { Login } from "./component/auth/Login";
@@ -11,24 +10,30 @@ import { Checkout } from "./component/checkout/Checkout";
 import { ErrorPage } from "./component/Pages/ErrorPage";
 import { UseAuth } from "./context/AuthContext";
 import { useEffect } from "react";
-import { getCart } from "./api/apiHandler";
 import { useDispatch } from "react-redux";
 import { fetchCart } from "./store/cartSlice";
 import { Order } from "./component/order/Order";
+import { getCartCount } from "./api/apiHandler";
 
 function App() {
   const { token } = UseAuth();
   const dispatch = useDispatch();
 
+  let cartCount = 0;
+
+  useEffect(() => {
+    getCartCount().then((res) => {
+      cartCount = res.data.count;
+      console.log(cartCount);
+    });
+  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(fetchCart());
-      const orderItem = await dispatch(fetchOrder());
-      console.log("Second action completed:", orderItem);
     };
-
     fetchData();
-  }, []);
+  }, [cartCount]);
 
   return (
     <>

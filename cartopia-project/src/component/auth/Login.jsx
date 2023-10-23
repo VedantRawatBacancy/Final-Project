@@ -18,8 +18,11 @@ import {
 import { userLogin } from "../../api/apiHandler";
 import { UseAuth } from "../../context/AuthContext";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { fetchCart } from "../../store/cartSlice";
 export const Login = () => {
   const { signIn } = UseAuth();
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
   const {
@@ -42,6 +45,7 @@ export const Login = () => {
           signIn(res.data.token);
           setSnackbarSeverity("success");
           setSnackbarMessage(res.data.message);
+          dispatch(fetchCart());
           navigate("/");
         }
       })

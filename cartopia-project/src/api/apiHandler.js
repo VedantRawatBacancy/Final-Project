@@ -15,6 +15,11 @@ export async  function userLogin(data) {
     
 }
 
+export function getCurrentUser(data) {
+    return axiosClient.get("/users/get-current-user", data)
+}
+
+
 export function getProducts(data){
     return axiosClient.get(`/products?page=${data.page+1}&productsPerPage=${data.rowsPerPage}&search=${data.search}`, data)
 }
@@ -49,6 +54,9 @@ export function removeAllCart(){
 
 export function getOrder(){
     return axiosClient.get("/orders/history", config)
+}
+export function getCartCount(){
+    return axiosClient.get("/cart/getCount", config)
 }
 
 export function addOrder(data) {

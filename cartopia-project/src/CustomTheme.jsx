@@ -14,6 +14,9 @@ const CustomTheme = createTheme({
     fail: {
       main: "#ed571c",
     },
+    signIn: {
+      main: "#edb31c",
+    },
     textPrimary: {
       main: "#ffffff",
     },

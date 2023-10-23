@@ -10,13 +10,19 @@ import {
 import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
 import "./Layout.css";
 import { Link, useNavigate } from "react-router-dom";
-
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { UseAuth } from "../context/AuthContext";
-
 import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { getCurrentUser } from "../api/apiHandler";
 
 export const Header = () => {
+  const [user, setUser] = useState([]);
+  useEffect(() => {
+    getCurrentUser().then((res) => {
+      setUser(res.data.user);
+    });
+  }, []);
   const { token, signOut } = UseAuth();
   const navigate = useNavigate();
 
@@ -76,7 +82,7 @@ export const Header = () => {
                 to="/signIn"
                 onClick={() => signOut()}
               >
-                Sign Out
+                Log Out {user.first_name}
               </Button>
               <Button color="textPrimary" component={Link} to="/cart">
                 <Badge

@@ -46,11 +46,9 @@ const addCart = async (req, res) => {
         CartId: cart.id,
         ProductId: product.id,
         ProductName: product.name,
-        ProductPrice: product.price_per_unit,
-        quantity: updatedQuantity,
-        total_price: updatedPrice,
-        
-        image: product.image
+        ProductPrice: product.price,
+        quantity: updatedQuantity,      
+        image: product.image,
       }
     })
   } else {
@@ -71,10 +69,8 @@ const addCart = async (req, res) => {
         ProductId: newCartItem.ProductId,
         ProductName: product.name,
         quantity: newCartItem.quantity,
-        ProductPrice: product.price_per_unit,
-        total_price: newCartItem.total_price,
+        ProductPrice: product.price,
         image: product.image
-
       }
     })
     
@@ -262,11 +258,48 @@ const checkout = async (req, res) => {
     })
 }
 
+const getCartItemCount = async (req, res) => {
+  try {
+    const user = req.user;
+    const cart = await Cart(db.sequelize, db.Sequelize.DataTypes).findOne({
+      where: { UserId: user.id }
+    });
+
+    if (!cart) {
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        count: 0,
+        message: 'Cart is empty',
+      });
+    }
+
+    const cartItemCount = await CartItem(db.sequelize, db.Sequelize.DataTypes).count({
+      where: { CartId: cart.id }
+    });
+
+    return res.status(200).json({
+      status: 200,
+      success: true,
+      count: cartItemCount,
+      message: 'Cart item count retrieved successfully',
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      success: false,
+      message: 'Internal server error',
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   addCart,
   removeCart,
   updateCart,
   getCart,
   removeAllCart,
-  checkout
+  checkout,
+  getCartItemCount
 }

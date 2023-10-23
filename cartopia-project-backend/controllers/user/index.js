@@ -130,6 +130,35 @@ exports.loginController = async (req, res) => {
   }
 }
 
+exports.getCurrentUserController = async (req, res) => {
+  try {
+    const userId = req.user.id; // Get the user ID from the authenticated request
+
+    const user = await User(db.sequelize, db.Sequelize.DataTypes).findOne({
+      where: { id: userId }
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'User details fetched successfully',
+      user
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+      error: error.message
+    });
+  }
+}
+
 // GET USER
 exports.getUserController = async (req, res) => {
   try {

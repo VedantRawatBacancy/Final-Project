@@ -6,13 +6,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCart, removeAllItemsFromCart } from "../../store/cartSlice";
 import { useEffect } from "react";
 import { addOrder } from "../../api/apiHandler";
+import { getCartCount } from "../../api/apiHandler";
 
 export const Cart = () => {
+  const dispatch = useDispatch();
+
   const cartItems = useSelector((state) => state.cart.items);
   const totalPrice = useSelector((state) => state.cart.totalPrice);
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+
   const handleCheckout = () => {
     const data = {
       shipping: {
@@ -44,6 +47,7 @@ export const Cart = () => {
         console.log("error in removing", error);
       });
   };
+
   return (
     <div>
       <Typography
@@ -68,7 +72,7 @@ export const Cart = () => {
               id={item.ProductId}
               name={item.ProductName}
               quantity={item.quantity}
-              price={item.total_price}
+              price={item.ProductPrice}
               image={item.image}
             />
           </>
